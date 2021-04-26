@@ -1,6 +1,7 @@
 const config = {
 	head:[
 			{element: "title", contents:"CAFE SWEETTIME"},
+			//charaset作れない問題。4/16。
 			{element:"meta", contents:"", options:{charset:"UTF-8"}},
 			{element:"meta", contents:"", options:{name:"viewport", content:"width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"}},
 
@@ -18,7 +19,7 @@ const config = {
 		{element:"main", contents:""},
 		{element:"footer", contents:""}
 	],
-	menus: ["健康","運動","肩こり","検索"],
+	menus: ["HOME","NEWS","CONCEPT","MENU","ACCESS","CONTACT"],
 }
 //引数には親、タグ、テキスト、オプション（属性など）を入れます。
 const createChildTag = (parent, tag, text, options) => {
@@ -37,16 +38,22 @@ const createChildTag = (parent, tag, text, options) => {
 //ul自体にタグを実装するには？
 //それともrenderloopを3階層分作ったほうが効率的なのか
 const createListTag = (parent,  tag, text, olul, options) => {
-	(olul === ul) ? document.createElement('ul') : document.createElement('ol');
-
+	const ul = document.createElement('ul'); 
+	const ol = document.createElement('ol');
+	(olul === "ul") ? ul : ol;
+	const li = document.createElement("li");
 	//その後タグ(element)をつくります。
 	if(tag)element = document.createElement(tag);
 	element.innerText = text;
 	//もしオプションがあった場合のメソッドを作ります。
 	//elementと同じ場所に入れるため、mapメソッドを使用し、keyを代入し入れるようにします。
 	if(options) Object.keys(options).map(key => element[key] = options[key]);
-	//親の中にelementをいれるメソッドを作ります。
-	if(parent)parent.appendChild(element);
+	//親の中にolulをいれるメソッドを作ります。
+	const olultag = () => {(olul === "ul") ? parent.appendChild(ul).appendChild(li) : parent.appendChild(ol).appendChild(li)};
+	//olulの中にliをいれるメソッドを作ります。
+	olultag();
+	//liの中にelementいれるメソッドを作ります。
+	li.appendChild(element);
 	// タグを返します。
 	return element;
 }
@@ -74,8 +81,10 @@ window.addEventListener('DOMContentLoaded', () => {
 	config.body.map(child => createChildTag(document.body, child.element, child.contents, child?.options));
 
 	const nav = document.getElementById('nav');
-	config.menus.map((menuItem,index) => (config.menus.length - 1 === index) ? createChildTag(nav,'a',menuItem, {style:"float: right"}) : createChildTag(nav,'a',menuItem));
+	config.menus.map((menuItem) => createListTag(nav,'a',menuItem,"ul",{id:menuItem}) );
 //4/16ここまでひらめくのに30分。ulとliをうまい具合実装したい。
+//しまったul>li*6>aじゃなく　(ul>li>a)*6になってしまう
+//4/26
 
 });
 
