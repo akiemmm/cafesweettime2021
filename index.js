@@ -113,7 +113,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	const nav = document.getElementById('nav');
 	const ul = document.createElement('ul');
 	nav.appendChild(ul);
-	config.menus.map((menuItem) => createListItemTag(ul,menuItem, 'a', {href:menuItem}) );
+	config.menus.map((menuItem) => createListItemTag(ul,menuItem, 'a', {href:"#"+menuItem}) );
 //4/16ここまでひらめくのに30分。ulとliをうまい具合実装したい。
 //4/26しまったul>li*6>aじゃなく　(ul>li>a)*6になってしまう
 //4/29なんとか力技でできたー！あとはnavとulをどうすっきりいれるかかな。
