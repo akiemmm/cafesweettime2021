@@ -37,17 +37,14 @@ const createChildTag = (parent, tag, text, options) => {
 //ul/liを実装したい。
 //ul自体にタグを実装するには？
 //それともrenderloopを3階層分作ったほうが効率的なのか
-const createListTag = (parent, olul,  text, tag, options) => {
+const createListTag = (parent,  tag, text, olul, options) => {
 	const ul = document.createElement('ul'); 
 	const ol = document.createElement('ol');
 	(olul === "ul") ? ul : ol;
 	const li = document.createElement("li");
 	//その後タグ(element)をつくります。
-	element = document.createElement(tag);
+	if(tag)element = document.createElement(tag);
 	element.innerText = text;
-	//もしオプションがあった場合のメソッドを作ります。
-	//tagがあった場合、liタグの中に引数のタグを入れる処理をします。
-	if(tag) Object.keys(element).map(key => createChildTag(li, element[key], text));
 	//もしオプションがあった場合のメソッドを作ります。
 	//elementと同じ場所に入れるため、mapメソッドを使用し、keyを代入し入れるようにします。
 	if(options) Object.keys(options).map(key => element[key] = options[key]);
@@ -60,26 +57,6 @@ const createListTag = (parent, olul,  text, tag, options) => {
 	// タグを返します。
 	return element;
 }
-//liタグと子要素を繰り返す
-const createListItemTag = (parent, text, tag, options) => {
-	const li = document.createElement("li");
-	//その後タグ(element)をつくります。
-	element = document.createElement(tag);
-	element.innerText = text;
-	//tagがあった場合、liタグの中に引数のタグを入れる処理をします。
-	if(tag) Object.keys(element).map(key => createChildTag(li, element[key], text));
-	//もしオプションがあった場合のメソッドを作ります。
-	//elementと同じ場所に入れるため、mapメソッドを使用し、keyを代入し入れるようにします。
-	if(options) Object.keys(options).map(key => element[key] = options[key]);
-	//parentの中にelementを入れるメソッドを作ります。
-	parent.appendChild(li);
-	//liの中にelementいれるメソッドを作ります。
-	li.appendChild(element);
-	// タグを返します。
-	return element;
-}
-
-
 
 
 //配列のみを繰り返す場合
@@ -97,26 +74,17 @@ const renderLoopArrayParts = (parent, children) => {
 	children.map(child=>createChildTag(loopPart,child.children.element,
 		child.children.contents,child.children?.options))
 }
-  const renderLoopParts = (parent,tag,text,options,children) => {
-    let loopPart = createChildTag(parent,tag,text,options);
-    children.map(child=>createChildTag(loopPart,child.children.element,child.children.contents,child.children?.options))
-  }
-	config.rightContents.map(card => renderLoopParts(left,'div',"",{className:"card"},card))
 */
 window.addEventListener('DOMContentLoaded', () => {
 	config.head.map(child => createChildTag(document.head, child.element, child.contents, child?.options));
 //4/14、ここまでひらめくのに20分。でも実は1時間は悩んだ。やった！進んだ。
-	config.body.map(child => createChildTag(document.body, child.element, child.contents, child?.options));//
-/* let menu = createChildTag(document.body,'div',"",{className:"menu"});
-    config.menus.map((menuItem,index) => (config.menus.length - 1 === index) ? createChildTag(menu,'a',menuItem, {style:"float: right"}) : createChildTag(menu,'a',menuItem));
- */
+	config.body.map(child => createChildTag(document.body, child.element, child.contents, child?.options));
+
 	const nav = document.getElementById('nav');
-	const ul = document.createElement('ul');
-	nav.appendChild(ul);
-	config.menus.map((menuItem) => createListItemTag(ul,menuItem, 'a', {id:menuItem}) );
+	config.menus.map((menuItem) => createListTag(nav,'a',menuItem,"ul",{id:menuItem}) );
 //4/16ここまでひらめくのに30分。ulとliをうまい具合実装したい。
-//4/26しまったul>li*6>aじゃなく　(ul>li>a)*6になってしまう
-//4/29なんとか力技でできたー！あとはnavとulをどうすっきりいれるかかな。
+//しまったul>li*6>aじゃなく　(ul>li>a)*6になってしまう
+//4/26
 
 });
 
