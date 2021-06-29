@@ -16,11 +16,48 @@ const config = {
 	body:[
 		{element: "header", contents:""},
 		{element: "nav", contents:"", options:{id:"nav"}},
-		{element:"main", contents:""},
+		{element:"main", contents:"", options:{id:"main"}},
 		{element:"footer", contents:""}
 	],
 	menus: ["HOME","NEWS","CONCEPT","MENU","ACCESS","CONTACT"],
+	main :[
+		{slider: [
+			]
+		},
+		{sections: [
+			]
+		},
+		{sections: [		
+			]
+			},
+		{sections: [
+					
+				]
+				},
+	]
 }
+//計画としては、
+/*
+headを作っていた
+
+
+headerを作る
+	その中にロゴを作る
+menuを作る
+mainを大きく作る
+	slideを作る
+	sectionを繰り返す
+footerを作る
+
+*/
+
+
+
+
+
+
+
+
 //引数には親、タグ、テキスト、オプション（属性など）を入れます。
 const createChildTag = (parent, tag, text, options) => {
 	//まずタグ(element)をつくります。
