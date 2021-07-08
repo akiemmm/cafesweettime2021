@@ -14,7 +14,7 @@ const config = {
 		//{element:"script", contents:"", options:{src:css.js}}
 	],
 	body:[
-		{element: "header", contents:""},
+		{element: "header", contents:"", options:{id:"header"}},
 		{element: "nav", contents:"", options:{id:"nav"}},
 		{element:"main", contents:"", options:{id:"main"}},
 		{element:"footer", contents:""}
@@ -34,6 +34,13 @@ const config = {
 					
 				]
 				},
+		{footer:[
+			{
+				
+			}
+		]
+
+		}
 	]
 }
 //計画としては、
@@ -147,6 +154,11 @@ window.addEventListener('DOMContentLoaded', () => {
 /* let menu = createChildTag(document.body,'div',"",{className:"menu"});
     config.menus.map((menuItem,index) => (config.menus.length - 1 === index) ? createChildTag(menu,'a',menuItem, {style:"float: right"}) : createChildTag(menu,'a',menuItem));
  */
+		const header = document.getElementById('header');
+		const h1 = document.createElement('h1');
+		header.appendChild(h1);
+		createChildTag(h1, 'img', '', {src:"https://akiemunakata.net/cafesweettime/images/logo_241715.png"});
+/*7/9 基本情報明けの3ヶ月作業 header完璧ですわー*/	
 	const nav = document.getElementById('nav');
 	const ul = document.createElement('ul');
 	nav.appendChild(ul);
